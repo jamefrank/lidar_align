@@ -8,7 +8,8 @@
 
 using namespace lidar_align;
 
-int main(int argc, char** argv) {
+int main(int argc, char **argv)
+{
   ros::init(argc, argv, "lidar_align");
 
   ros::NodeHandle nh, nh_private("~");
@@ -20,11 +21,14 @@ int main(int argc, char** argv) {
 
   std::string input_bag_path;
   ROS_INFO("Loading Pointcloud Data...");
-  if (!nh_private.getParam("input_bag_path", input_bag_path)) {
+  if (!nh_private.getParam("input_bag_path", input_bag_path))
+  {
     ROS_FATAL("Could not find input_bag_path parameter, exiting");
     exit(EXIT_FAILURE);
-  } else if (!loader.loadPointcloudFromROSBag(
-                 input_bag_path, Scan::getConfig(&nh_private), &lidar)) {
+  }
+  else if (!loader.loadPointcloudFromROSBag(input_bag_path, Scan::getConfig(&nh_private), &lidar))
+  // else if (!loader.loadPointcloudFromPcdDir(input_bag_path, Scan::getConfig(&nh_private), &lidar))
+  {
     ROS_FATAL("Error loading pointclouds from ROS bag.");
     exit(0);
   }
@@ -33,20 +37,27 @@ int main(int argc, char** argv) {
   nh_private.param("transforms_from_csv", transforms_from_csv, false);
   std::string input_csv_path;
   ROS_INFO("Loading Transformation Data...                                ");
-  if (transforms_from_csv) {
-    if (!nh_private.getParam("input_csv_path", input_csv_path)) {
+  if (transforms_from_csv)
+  {
+    if (!nh_private.getParam("input_csv_path", input_csv_path))
+    {
       ROS_FATAL("Could not find input_csv_path parameter, exiting");
       exit(EXIT_FAILURE);
-    } else if (!loader.loadTformFromMaplabCSV(input_csv_path, &odom)) {
-      ROS_FATAL("Error loading transforms from CSV.");
-      exit(0);
     }
-  } else if (!loader.loadTformFromROSBag(input_bag_path, &odom)) {
+    // else if (!loader.loadTfromFromTxt(input_csv_path, &odom))
+    // {
+    //   ROS_FATAL("Error loading transforms from CSV.");
+    //   exit(0);
+    // }
+  }
+  else if (!loader.loadTformFromROSBag(input_bag_path, &odom))
+  {
     ROS_FATAL("Error loading transforms from ROS bag.");
     exit(0);
   }
 
-  if (lidar.getNumberOfScans() == 0) {
+  if (lidar.getNumberOfScans() == 0)
+  {
     ROS_FATAL("No data loaded, exiting");
     exit(0);
   }

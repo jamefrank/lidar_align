@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <launch>
 
-  <arg name="bag_file" default="/PATH/TO/YOUR.bag"/>
+  <arg name="bag_file" default="/home/frank/data/github-data/lidar-align/example.bag"/>
   <arg name="transforms_from_csv" default="false"/>
   <arg name="csv_file" default="PATH/TO/YOUR.csv"/>
 
